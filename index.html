@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -258,7 +257,6 @@
 </div>
 
 <script>
-    // ========== DATA ==========
     let jobs = [];
     let balance = 0;
     let nextJobId = 1;
@@ -312,7 +310,8 @@
             if (job.status === "pending") {
                 statusBadge = '<span class="badge badge-pending">⏳ Belum dikerjakan</span>';
                 actionButton = `<button class="complete-btn" data-id="${job.id}">✔️ Tandai Selesai</button>`;
-        tusBadge = '<span class="badge badge-done">✅ Selesai (menunggu verifikasi admin)</span>';
+            } else if (job.status === "done") {
+                statusBadge = '<span class="badge badge-done">✅ Selesai (menunggu verifikasi admin)</span>';
                 actionButton = `<button disabled style="background:#94a3b8;">⏳ Menunggu Verifikasi</button>`;
             } else if (job.status === "verified") {
                 statusBadge = '<span class="badge badge-verified">🏆 Terverifikasi + Saldo masuk</span>';
@@ -430,7 +429,7 @@
             div.innerHTML = `
                 <div class="flex-between">
                     <div><strong>${escapeHtml(job.title)}</strong> - Rp ${job.rate.toLocaleString()}</div>
-                    <button class="verify-single-btn" data-id="${job.id}" class="btn-verify">✅ Verifikasi & Tambah Saldo</button>
+                    <button class="verify-single-btn" data-id="${job.id}" style="background:#10b981;">✅ Verifikasi & Tambah Saldo</button>
                 </div>
                 <small>📝 ${escapeHtml(job.desc)} | Status: Selesai oleh user</small>
             `;
@@ -473,7 +472,6 @@
         });
     }
 
-    // TARIK SALDO minimal 20.000, arahkan ke t.me/msdimas33
     function requestWithdraw() {
         if (balance < 20000) {
             alert("Minimal tarik saldo adalah Rp 20.000. Saldo Anda: Rp " + balance.toLocaleString('id-ID'));
@@ -552,4 +550,3 @@
 </script>
 </body>
 </html>
-```
