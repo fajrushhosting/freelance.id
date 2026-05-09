@@ -9,7 +9,7 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
         }
 
         body {
@@ -23,16 +23,12 @@
             margin: 0 auto;
         }
 
-        /* ========= HEADER & SALDO CARD ========= */
+        /* HEADER & SALDO CARD */
         .header {
             margin-bottom: 32px;
         }
 
         .logo-area {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            flex-wrap: wrap;
             margin-bottom: 20px;
         }
 
@@ -42,7 +38,6 @@
             background-clip: text;
             -webkit-background-clip: text;
             color: transparent;
-            letter-spacing: -0.5px;
         }
 
         .logo p {
@@ -50,7 +45,6 @@
             font-size: 0.85rem;
         }
 
-        /* SALDO CARD ELEGAN */
         .saldo-card {
             background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
             border-radius: 40px;
@@ -60,9 +54,7 @@
             align-items: center;
             flex-wrap: wrap;
             gap: 20px;
-            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.25), inset 0 1px 0 rgba(255,255,255,0.1);
-            backdrop-filter: blur(2px);
-            transition: all 0.3s ease;
+            box-shadow: 0 20px 35px -12px rgba(0,0,0,0.25);
         }
 
         .saldo-info {
@@ -80,7 +72,6 @@
             align-items: center;
             justify-content: center;
             font-size: 2rem;
-            backdrop-filter: blur(4px);
         }
 
         .saldo-text h3 {
@@ -88,7 +79,6 @@
             font-size: 0.85rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            font-weight: 500;
         }
 
         .saldo-nominal {
@@ -96,7 +86,6 @@
             font-weight: 800;
             color: white;
             line-height: 1;
-            letter-spacing: -1px;
         }
 
         .saldo-nominal small {
@@ -114,24 +103,19 @@
             font-size: 1rem;
             color: white;
             cursor: pointer;
-            transition: 0.2s;
             display: flex;
             align-items: center;
             gap: 12px;
+            transition: 0.2s;
             box-shadow: 0 8px 18px rgba(245,158,11,0.3);
         }
 
         .btn-tarik:hover {
             transform: translateY(-3px);
             filter: brightness(1.05);
-            box-shadow: 0 14px 26px rgba(245,158,11,0.4);
         }
 
-        .btn-tarik:active {
-            transform: translateY(2px);
-        }
-
-        /* Tab */
+        /* TAB BUTTONS */
         .tab-bar {
             display: flex;
             gap: 16px;
@@ -149,7 +133,6 @@
             cursor: pointer;
             color: #1e293b;
             transition: 0.2s;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.03);
         }
 
         .tab-btn.active {
@@ -158,7 +141,7 @@
             box-shadow: 0 8px 20px rgba(15,23,42,0.2);
         }
 
-        /* Job Grid */
+        /* JOB GRID */
         .jobs-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(330px, 1fr));
@@ -170,14 +153,13 @@
             background: white;
             border-radius: 32px;
             padding: 24px;
-            transition: all 0.25s;
+            transition: 0.25s;
             border: 1px solid rgba(226,232,240,0.6);
             box-shadow: 0 12px 24px -12px rgba(0,0,0,0.08);
         }
 
         .job-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 24px 36px -16px rgba(0,0,0,0.12);
         }
 
         .job-title {
@@ -216,6 +198,7 @@
         .badge-pending { background: #fef3c7; color: #b45309; }
         .badge-done { background: #dbeafe; color: #1e40af; }
         .badge-verified { background: #dcfce7; color: #15803d; }
+        .badge-unavailable { background: #fee2e2; color: #b91c1c; }
 
         button:not(.tab-btn):not(.btn-tarik) {
             background: #1e293b;
@@ -230,20 +213,15 @@
             transition: 0.2s;
         }
 
-        button:not(.tab-btn):not(.btn-tarik):hover {
-            background: #0f172a;
-            transform: scale(0.97);
-        }
-
-        /* Admin Panel */
-        .admin-section {
+        /* ADMIN PANEL */
+        .admin-section, .history-section {
             background: white;
             border-radius: 36px;
             padding: 28px;
             box-shadow: 0 12px 28px -8px rgba(0,0,0,0.06);
         }
 
-        .admin-job-item {
+        .admin-job-item, .history-item {
             border-bottom: 1px solid #e2e8f0;
             padding: 18px 0;
         }
@@ -258,6 +236,7 @@
 
         .btn-verify { background: #10b981; }
         .btn-delete { background: #ef4444; }
+        .btn-toggle { background: #3b82f6; }
 
         input, textarea {
             padding: 12px 18px;
@@ -268,12 +247,6 @@
             margin-bottom: 16px;
             font-size: 0.95rem;
             outline: none;
-            transition: 0.2s;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #3b82f6;
-            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
         }
 
         .form-custom {
@@ -289,7 +262,6 @@
             padding: 14px 20px;
             text-align: center;
             margin-top: 20px;
-            font-size: 0.9rem;
         }
 
         hr {
@@ -297,6 +269,16 @@
             border: none;
             height: 1px;
             background: #e2e8f0;
+        }
+
+        .history-status {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 30px;
+            background: #fef3c7;
+            color: #b45309;
+            font-size: 0.7rem;
+            font-weight: 600;
         }
 
         @media (max-width: 700px) {
@@ -312,12 +294,10 @@
     <div class="header">
         <div class="logo-area">
             <div class="logo">
-                <h1>🤖 FREELANCE ID</h1>
-                <p>Platform FREELANCE</p>
+                <h1>🎯 FreelanceFlow</h1>
+                <p>Platform Job & Komisi</p>
             </div>
         </div>
-
-        <!-- SALDO CARD MODERN -->
         <div class="saldo-card">
             <div class="saldo-info">
                 <div class="saldo-icon">💰</div>
@@ -328,14 +308,13 @@
                     </div>
                 </div>
             </div>
-            <button class="btn-tarik" id="withdrawBtn">
-                <span>💸</span> Tarik Saldo
-            </button>
+            <button class="btn-tarik" id="withdrawBtn">💸 Tarik Saldo</button>
         </div>
     </div>
 
     <div class="tab-bar">
         <button class="tab-btn active" data-tab="jobs-tab">📋 Semua Job</button>
+        <button class="tab-btn" data-tab="history-tab">📜 Riwayat Tarik</button>
         <button class="tab-btn" data-tab="admin-tab">🔐 Admin Panel</button>
     </div>
 
@@ -345,6 +324,14 @@
         <div class="link-telegram">
             📢 Butuh bantuan? Hubungi Admin: <strong><a href="https://t.me/msdimas33" target="_blank">@msdimas33</a></strong><br>
             ✅ Job diverifikasi admin ➕ saldo langsung bertambah
+        </div>
+    </div>
+
+    <!-- TAB RIWAYAT TARIK -->
+    <div id="history-tab" class="tab-content" style="display: none;">
+        <div class="history-section">
+            <h2>📜 Riwayat Penarikan Saldo</h2>
+            <div id="historyList"></div>
         </div>
     </div>
 
@@ -366,7 +353,7 @@
                     <input type="number" id="customJobRate" placeholder="Harga (Rp)" value="25000">
                     <button id="createCustomJobBtn">✨ Tambah Job Baru</button>
                     <hr>
-                    <h3>🗑️ Kelola & Hapus Job (Semua Status)</h3>
+                    <h3>🗑️ Kelola Semua Job (Atur Tersedia/Tidak Tersedia & Hapus)</h3>
                     <div id="allJobsListAdmin"></div>
                 </div>
             </div>
@@ -376,34 +363,46 @@
 
 <script>
     // ======================= DATA & STORAGE =======================
-    let jobs = [];
+    let jobs = [];          // { id, title, desc, rate, status, available }
     let balance = 0;
     let nextJobId = 1;
+    let withdrawHistory = []; // { id, amount, date, status }
+    let nextHistoryId = 1;
+
     const ADMIN_CODE = "FAJRUSH13-11-2007";
     let adminAuth = false;
 
     function loadData() {
-        const storedJobs = localStorage.getItem("freelance_jobs_v2");
-        const storedBalance = localStorage.getItem("freelance_balance_v2");
+        const storedJobs = localStorage.getItem("freelance_jobs_v4");
+        const storedBalance = localStorage.getItem("freelance_balance_v4");
+        const storedHistory = localStorage.getItem("freelance_withdraw_history");
+
         if (storedJobs) {
             jobs = JSON.parse(storedJobs);
             nextJobId = jobs.length ? Math.max(...jobs.map(j => j.id)) + 1 : 1;
         } else {
-            // Data awal
             jobs = [
-                { id: 1, title: "Desain Logo Kreatif", desc: "Buat logo minimalis untuk brand kopi.", rate: 25000, status: "pending" },
-                { id: 2, title: "Tulis Artikel SEO", desc: "Artikel 600 kata tentang digital marketing.", rate: 40000, status: "pending" },
-                { id: 3, title: "Edit Video Pendek", desc: "Edit video 30 detik untuk sosial media.", rate: 55000, status: "pending" }
+                { id: 1, title: "Desain Logo Kreatif", desc: "Buat logo minimalis untuk brand kopi.", rate: 25000, status: "pending", available: true },
+                { id: 2, title: "Tulis Artikel SEO", desc: "Artikel 600 kata tentang digital marketing.", rate: 40000, status: "pending", available: true },
+                { id: 3, title: "Edit Video Pendek", desc: "Edit video 30 detik untuk sosial media.", rate: 55000, status: "pending", available: true }
             ];
             nextJobId = 4;
         }
         if (storedBalance) balance = parseInt(storedBalance) || 0;
+        if (storedHistory) {
+            withdrawHistory = JSON.parse(storedHistory);
+            nextHistoryId = withdrawHistory.length ? Math.max(...withdrawHistory.map(h => h.id)) + 1 : 1;
+        } else {
+            withdrawHistory = [];
+            nextHistoryId = 1;
+        }
         updateBalanceUI();
     }
 
     function saveData() {
-        localStorage.setItem("freelance_jobs_v2", JSON.stringify(jobs));
-        localStorage.setItem("freelance_balance_v2", balance);
+        localStorage.setItem("freelance_jobs_v4", JSON.stringify(jobs));
+        localStorage.setItem("freelance_balance_v4", balance);
+        localStorage.setItem("freelance_withdraw_history", JSON.stringify(withdrawHistory));
     }
 
     function updateBalanceUI() {
@@ -415,12 +414,17 @@
         return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'));
     }
 
-    // =============== RENDER JOB UNTUK USER ===============
+    // =============== RENDER JOB UNTUK USER (hanya available = true) ===============
     function renderUserJobs() {
         const container = document.getElementById("jobsContainer");
         if (!container) return;
+        const availableJobs = jobs.filter(job => job.available === true);
+        if (availableJobs.length === 0) {
+            container.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:40px; background:white; border-radius:32px;">📭 Saat ini tidak ada job yang tersedia. Silakan cek lagi nanti.</div>`;
+            return;
+        }
         container.innerHTML = "";
-        jobs.forEach(job => {
+        availableJobs.forEach(job => {
             let statusBadge = "";
             let actionBtn = "";
             if (job.status === "pending") {
@@ -508,6 +512,22 @@
         }
     }
 
+    // =============== ADMIN TOGGLE AVAILABILITY ===============
+    function toggleAvailability(jobId) {
+        if (!adminAuth) {
+            alert("Akses ditolak.");
+            return;
+        }
+        const job = jobs.find(j => j.id === jobId);
+        if (job) {
+            job.available = !job.available;
+            saveData();
+            renderUserJobs();
+            renderAllJobsAdmin();
+            alert(`Job "${job.title}" sekarang ${job.available ? 'Tersedia' : 'TIDAK Tersedia'} untuk user.`);
+        }
+    }
+
     // =============== ADMIN TAMBAH JOB CUSTOM ===============
     function addCustomJob(title, desc, rate) {
         if (!adminAuth) {
@@ -523,7 +543,8 @@
             title: title.trim(),
             desc: desc.trim(),
             rate: parseInt(rate),
-            status: "pending"
+            status: "pending",
+            available: true
         };
         jobs.push(newJob);
         saveData();
@@ -565,7 +586,7 @@
 
     function renderAllJobsAdmin() {
         const container = document.getElementById("allJobsListAdmin");
-ntainer) return;
+        if (!container) return;
         if (jobs.length === 0) {
             container.innerHTML = "<p>Belum ada job.</p>";
             return;
@@ -573,16 +594,31 @@ ntainer) return;
         container.innerHTML = "";
         jobs.forEach(job => {
             let statusText = job.status === "pending" ? "⏳ Pending" : (job.status === "done" ? "✅ Selesai (belum verif)" : "🏆 Terverifikasi");
+            const availText = job.available ? "✅ Tersedia" : "❌ Tidak Tersedia";
+            const availBtnText = job.available ? "Set Tidak Tersedia" : "Set Tersedia";
             const div = document.createElement("div");
             div.className = "admin-job-item";
             div.innerHTML = `
                 <div class="flex-between">
-                    <div><strong>${escapeHtml(job.title)}</strong> - Rp ${job.rate.toLocaleString()} <span style="font-size:12px; color:#475569;">(${statusText})</span></div>
-                    <button class="delete-job-admin" data-id="${job.id}" style="background:#ef4444;">🗑️ Hapus Job</button>
+                    <div>
+                        <strong>${escapeHtml(job.title)}</strong> - Rp ${job.rate.toLocaleString()} 
+                        <span style="font-size:12px; color:#475569;">(${statusText})</span><br>
+                        <span style="font-size:12px; background:#f1f5f9; padding:2px 8px; border-radius:20px;">${availText}</span>
+                    </div>
+                    <div style="display: flex; gap: 8px; flex-wrap: wrap;">
+                        <button class="toggle-avail-btn" data-id="${job.id}" style="background:#3b82f6;">🔄 ${availBtnText}</button>
+                        <button class="delete-job-admin" data-id="${job.id}" style="background:#ef4444;">🗑️ Hapus</button>
+                    </div>
                 </div>
                 <small>${escapeHtml(job.desc)}</small>
             `;
             container.appendChild(div);
+        });
+        document.querySelectorAll('.toggle-avail-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                toggleAvailability(id);
+            });
         });
         document.querySelectorAll('.delete-job-admin').forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -592,7 +628,36 @@ ntainer) return;
         });
     }
 
-    // =============== TARIK SALDO (MIN 20.000, LANGSUNG KE ADMIN TG) ===============
+    // =============== RIWAYAT TARIK SALDO ===============
+    function renderWithdrawHistory() {
+        const container = document.getElementById("historyList");
+        if (!container) return;
+        if (withdrawHistory.length === 0) {
+            container.innerHTML = "<p style='padding: 20px; text-align:center;'>Belum ada riwayat penarikan.</p>";
+            return;
+        }
+        container.innerHTML = "";
+        // Urutkan dari yang terbaru
+        const sorted = [...withdrawHistory].reverse();
+        sorted.forEach(item => {
+            const div = document.createElement("div");
+            div.className = "history-item";
+            div.innerHTML = `
+                <div class="flex-between">
+                    <div>
+                        <strong>💰 Rp ${item.amount.toLocaleString('id-ID')}</strong><br>
+                        <small>📅 ${item.date} | ID: #${item.id}</small>
+                    </div>
+                    <div>
+                        <span class="history-status">${item.status}</span>
+                    </div>
+                </div>
+            `;
+            container.appendChild(div);
+        });
+    }
+
+    // =============== TARIK SALDO (MIN 20.000, LANGSUNG KE ADMIN TG + CATAT RIWAYAT) ===============
     function requestWithdraw() {
         if (balance < 20000) {
             alert(`Minimal tarik saldo adalah Rp 20.000. Saldo Anda saat ini: Rp ${balance.toLocaleString('id-ID')}`);
@@ -602,20 +667,33 @@ ntainer) return;
         const konfirmasi = confirm(`Tarik saldo Rp ${amount.toLocaleString('id-ID')}? Saldo akan menjadi 0 dan Anda akan diarahkan ke chat admin.`);
         if (!konfirmasi) return;
 
-        // Pesan yang akan disalin ke clipboard
+        // Catat ke riwayat
+        const now = new Date();
+        const formattedDate = `${now.toLocaleDateString('id-ID')} ${now.toLocaleTimeString('id-ID')}`;
+        const newHistory = {
+            id: nextHistoryId++,
+            amount: amount,
+            date: formattedDate,
+            status: "Diproses"
+        };
+        withdrawHistory.push(newHistory);
+        
+        // Kirim pesan ke clipboard dan buka chat admin
         const pesan = `Halo Admin, saya ingin menarik saldo sebesar Rp ${amount.toLocaleString('id-ID')}. Terima kasih.`;
         navigator.clipboard.writeText(pesan).then(() => {
             window.open("https://t.me/msdimas33", "_blank");
-            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()} berhasil.\nPesan tarikan sudah disalin ke clipboard.\nSilakan paste dan kirim ke admin (@msdimas33) di chat yang terbuka.\nSaldo Anda sekarang Rp 0.`);
+            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()} berhasil.\nPesan tarikan sudah disalin ke clipboard.\nSilakan paste dan kirim ke admin (@msdimas33).\nSaldo Anda sekarang Rp 0.\nRiwayat telah dicatat.`);
         }).catch(() => {
             window.open("https://t.me/msdimas33", "_blank");
-            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()}.\nSilakan kirim pesan berikut ke admin:\n"${pesan}"\nSaldo telah dikosongkan.`);
+            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()}.\nSilakan kirim pesan berikut ke admin:\n"${pesan}"\nSaldo telah dikosongkan.\nRiwayat telah dicatat.`);
         });
-        // Reset saldo
+        
+        // Reset saldo dan simpan
         balance = 0;
-        updateBalanceUI();
         saveData();
+        updateBalanceUI();
         renderUserJobs();
+        renderWithdrawHistory(); // update tampilan riwayat
     }
 
     // =============== LOGIN ADMIN ===============
@@ -646,12 +724,13 @@ ntainer) return;
                 tabs.forEach(t => t.classList.remove('active'));
                 btn.classList.add('active');
                 if (target === 'admin-tab') {
-                    // reset tampilan admin setiap buka tab
                     document.getElementById("adminPanelContent").style.display = "none";
                     adminAuth = false;
                     document.getElementById("adminKeyInput").value = "";
                 } else if (target === 'jobs-tab') {
                     renderUserJobs();
+                } else if (target === 'history-tab') {
+                    renderWithdrawHistory();
                 }
             });
         });
