@@ -1,18 +1,10 @@
-Berikut kode terbaru dengan perubahan akun Telegram admin menjadi @msdimas33 (link t.me/msdimas33). Semua fitur tetap sama:
-
-· Kode admin: FAJRUSH13-11-2007
-· Tarik saldo minimal Rp20.000, otomatis buka chat ke admin dan salin pesan tarikan
-· Admin bisa verifikasi, tambah job custom, dan hapus job
-
-Simpan sebagai .html dan buka di browser.
-
 ```html
 <!DOCTYPE html>
 <html lang="id">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FreelanceHub - Job & Saldo</title>
+    <title>FREELANCE ID</title>
     <style>
         * {
             margin: 0;
@@ -320,8 +312,7 @@ Simpan sebagai .html dan buka di browser.
             if (job.status === "pending") {
                 statusBadge = '<span class="badge badge-pending">⏳ Belum dikerjakan</span>';
                 actionButton = `<button class="complete-btn" data-id="${job.id}">✔️ Tandai Selesai</button>`;
-            } else if (job.status === "done") {
-                statusBadge = '<span class="badge badge-done">✅ Selesai (menunggu verifikasi admin)</span>';
+        tusBadge = '<span class="badge badge-done">✅ Selesai (menunggu verifikasi admin)</span>';
                 actionButton = `<button disabled style="background:#94a3b8;">⏳ Menunggu Verifikasi</button>`;
             } else if (job.status === "verified") {
                 statusBadge = '<span class="badge badge-verified">🏆 Terverifikasi + Saldo masuk</span>';
