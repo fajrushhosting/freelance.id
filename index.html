@@ -1,0 +1,640 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Freelance Hub - Platform Job & Saldo</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(145deg, #f0f4fa 0%, #e6edf4 100%);
+            min-height: 100vh;
+            padding: 24px 20px;
+        }
+
+        /* container utama */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+        }
+
+        /* header + saldo */
+        .header {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            border-radius: 36px;
+            padding: 18px 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 12px 25px rgba(0,0,0,0.05);
+            backdrop-filter: blur(2px);
+            border: 1px solid rgba(255,255,255,0.6);
+        }
+
+        .logo h1 {
+            font-size: 1.8rem;
+            background: linear-gradient(135deg, #1f2b3c, #2c3e5c);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+
+        .saldo-card {
+            background: #2c3e5c;
+            padding: 8px 26px;
+            border-radius: 60px;
+            color: white;
+            font-weight: bold;
+            display: flex;
+            gap: 15px;
+            align-items: baseline;
+            flex-wrap: wrap;
+            box-shadow: 0 5px 12px rgba(0,0,0,0.1);
+        }
+
+        .saldo-nominal {
+            font-size: 1.9rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+        }
+
+        .btn-tarik {
+            background: #f5b042;
+            border: none;
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #2c2c2c;
+            cursor: pointer;
+            transition: 0.2s;
+            font-size: 0.9rem;
+        }
+
+        .btn-tarik:hover {
+            background: #ffa01e;
+            transform: scale(0.96);
+        }
+
+        /* tab menu (user view / admin panel) */
+        .tab-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            background: white;
+            border: none;
+            padding: 10px 28px;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            color: #2c3e5c;
+        }
+
+        .tab-btn.active {
+            background: #2c3e5c;
+            color: white;
+            box-shadow: 0 6px 14px rgba(44,62,92,0.3);
+        }
+
+        /* grid job */
+        .jobs-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+            margin-top: 15px;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 28px;
+            padding: 20px;
+            transition: 0.2s;
+            border: 1px solid #eef2f7;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.02);
+        }
+
+        .job-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .job-desc {
+            color: #4a5568;
+            margin: 12px 0;
+            line-height: 1.4;
+        }
+
+        .job-rate {
+            background: #eef2ff;
+            display: inline-block;
+            padding: 4px 14px;
+            border-radius: 30px;
+            font-weight: bold;
+            color: #2563eb;
+            margin: 8px 0;
+        }
+
+        .job-status {
+            font-size: 0.8rem;
+            margin: 10px 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .badge {
+            padding: 4px 12px;
+            border-radius: 30px;
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        .badge-pending {
+            background: #fef3c7;
+            color: #b45309;
+        }
+
+        .badge-done {
+            background: #dcfce7;
+            color: #15803d;
+        }
+
+        .badge-verified {
+            background: #cffafe;
+            color: #0e7490;
+        }
+
+        button {
+            background: #2c3e5c;
+            border: none;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 40px;
+            font-weight: 500;
+            cursor: pointer;
+            margin-top: 8px;
+            margin-right: 8px;
+            transition: 0.2s;
+        }
+
+        button:active {
+            transform: scale(0.97);
+        }
+
+        .admin-section {
+            background: white;
+            border-radius: 32px;
+            padding: 26px;
+            margin-top: 20px;
+        }
+
+        .admin-jobs-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .admin-job-item {
+            border-bottom: 1px solid #e2e8f0;
+            padding: 16px 0;
+        }
+
+        .flex-between {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .btn-verify {
+            background: #10b981;
+        }
+
+        .btn-custom {
+            background: #3b82f6;
+        }
+
+        input, textarea, select {
+            padding: 10px 14px;
+            border-radius: 28px;
+            border: 1px solid #cbd5e1;
+            outline: none;
+            font-size: 0.9rem;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .form-custom {
+            background: #f8fafc;
+            border-radius: 24px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .link-telegram {
+            background: #eef2ff;
+            border-radius: 30px;
+            padding: 8px 15px;
+            font-size: 0.85rem;
+            display: inline-block;
+            margin-top: 12px;
+        }
+
+        hr {
+            margin: 20px 0;
+        }
+
+        @media (max-width: 680px) {
+            .header {
+                flex-direction: column;
+                gap: 14px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <div class="logo"><h1>🎯 FreelanceFlow</h1></div>
+        <div class="saldo-card">
+            <span>💰 Saldo Anda :</span>
+            <span class="saldo-nominal" id="userBalance">0</span>
+            <button class="btn-tarik" id="withdrawBtn">💸 Tarik Saldo</button>
+        </div>
+    </div>
+
+    <div class="tab-bar">
+        <button class="tab-btn active" data-tab="jobs-tab">📋 Daftar Job</button>
+        <button class="tab-btn" data-tab="admin-tab">⚙️ Admin Panel (khusus admin)</button>
+    </div>
+
+    <!-- TAB JOB (USER) -->
+    <div id="jobs-tab" class="tab-content">
+        <div class="jobs-grid" id="jobsContainer"></div>
+        <div class="link-telegram" style="margin-top: 30px; text-align:center;">
+            ⚠️ Butuh bantuan? Laporkan kendala ke <strong><a href="https://t.me/tiaraimutttbnget" target="_blank">t.me/tiaraimutttbnget (Admin)</a></strong> 
+            | 🛡️ Hanya Admin bisa verifikasi job
+        </div>
+    </div>
+
+    <!-- TAB ADMIN (hanya bisa diakses admin, tapi dalam demo kita pake prompt sederhana) -->
+    <div id="admin-tab" class="tab-content" style="display: none;">
+        <div class="admin-section">
+            <h2>🔐 Panel Admin (Verifikasi & Custom Job)</h2>
+            <p style="margin-bottom: 15px;">Hanya admin yang dapat memverifikasi job dan menambah job custom. Gunakan kunci akses:</p>
+            <div class="form-custom">
+                <label>🔑 Kunci Admin (rahasia) :</label>
+                <input type="password" id="adminKeyInput" placeholder="Masukkan kode admin" value="admin123">
+                <button id="authAdminBtn" style="margin-top: 12px;">Login sebagai Admin</button>
+                <div id="adminPanelContent" style="display: none; margin-top: 20px;">
+                    <h3>➕ Custom Job Baru (hanya admin)</h3>
+                    <input type="text" id="customJobTitle" placeholder="Nama Job">
+                    <textarea id="customJobDesc" rows="2" placeholder="Deskripsi singkat"></textarea>
+                    <input type="number" id="customJobRate" placeholder="Rate / harga (Rp)" value="5000">
+                    <button id="createCustomJobBtn">✨ Tambah Job Baru</button>
+
+                    <hr>
+                    <h3>✅ Verifikasi Job yang Selesai oleh User</h3>
+                    <div id="adminVerifList"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // ---------- DATA MODEL ----------
+    let jobs = [];        // { id, title, desc, rate, status: 'pending','done','verified', userIdDone? }
+    let balance = 0;
+    let nextJobId = 3;
+
+    // Default demo jobs (status awal pending)
+    const defaultJobs = [
+        { id: 1, title: "Desain Logo Kreatif", desc: "Buat logo minimalis untuk brand kopi.", rate: 25000, status: "pending", userIdDone: null },
+        { id: 2, title: "Tulis Artikel 500 kata", desc: "Topik teknologi AI untuk blog.", rate: 40000, status: "pending", userIdDone: null }
+    ];
+
+    // load from localStorage
+    function loadData() {
+        const savedJobs = localStorage.getItem("freelance_jobs");
+        const savedBalance = localStorage.getItem("freelance_balance");
+        if(savedJobs) {
+            jobs = JSON.parse(savedJobs);
+            nextJobId = Math.max(...jobs.map(j=>j.id),0)+1;
+        } else {
+            jobs = [...defaultJobs];
+            nextJobId = 3;
+        }
+        if(savedBalance) balance = parseInt(savedBalance) || 0;
+        updateBalanceUI();
+    }
+
+    function saveData() {
+        localStorage.setItem("freelance_jobs", JSON.stringify(jobs));
+        localStorage.setItem("freelance_balance", balance);
+    }
+
+    function updateBalanceUI() {
+        document.getElementById("userBalance").innerText = balance.toLocaleString('id-ID');
+    }
+
+    // render job cards untuk user
+    function renderUserJobs() {
+        const container = document.getElementById("jobsContainer");
+        if(!container) return;
+        container.innerHTML = "";
+        jobs.forEach(job => {
+            const card = document.createElement("div");
+            card.className = "job-card";
+            let statusBadge = "";
+            if(job.status === "pending") statusBadge = '<span class="badge badge-pending">⏳ Belum dikerjakan</span>';
+            else if(job.status === "done") statusBadge = '<span class="badge badge-done">✅ Selesai (menunggu verifikasi admin)</span>';
+            else if(job.status === "verified") statusBadge = '<span class="badge badge-verified">🏆 Terverifikasi + Saldo masuk</span>';
+            
+            card.innerHTML = `
+                <div class="job-title">${escapeHtml(job.title)}</div>
+                <div class="job-desc">${escapeHtml(job.desc)}</div>
+                <div class="job-rate">💰 Rate: Rp ${job.rate.toLocaleString('id-ID')}</div>
+                <div class="job-status">${statusBadge}</div>
+                ${job.status === 'pending' ? `<button class="complete-job-btn" data-id="${job.id}">✔️ Tandai Selesai</button>` : ''}
+                ${job.status === 'done' ? `<button disabled style="background:#94a3b8;">⏳ Menunggu Verifikasi Admin</button>` : ''}
+                ${job.status === 'verified' ? `<span>✅ Sudah diverifikasi, saldo ditambahkan</span>` : ''}
+            `;
+            container.appendChild(card);
+        });
+        // attach event listener untuk tombol selesai
+        document.querySelectorAll('.complete-job-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const jobId = parseInt(btn.getAttribute('data-id'));
+                completeJob(jobId);
+            });
+        });
+    }
+
+    function completeJob(jobId) {
+        const job = jobs.find(j => j.id === jobId);
+        if(!job) return;
+        if(job.status !== "pending") {
+            alert("Job sudah dalam proses atau sudah diverifikasi.");
+            return;
+        }
+        // user menyelesaikan job => ubah status jadi 'done'
+        job.status = "done";
+        saveData();
+        renderUserJobs();
+        renderAdminVerifList();  // update admin list jika admin sedang login aktif
+        alert("Job telah ditandai selesai! Sekarang admin perlu verifikasi agar saldo bertambah.");
+    }
+
+    // admin verifikasi job (menambah saldo user)
+    function verifyJobByAdmin(jobId) {
+        const job = jobs.find(j => j.id === jobId);
+        if(!job) return false;
+        if(job.status !== "done") {
+            alert("Job belum ditandai selesai oleh user atau sudah diverifikasi.");
+            return false;
+        }
+        // proses verifikasi: tambah saldo berdasarkan rate
+        balance += job.rate;
+        job.status = "verified";
+        saveData();
+        updateBalanceUI();
+        renderUserJobs();
+        renderAdminVerifList();
+        // Kirim notifikasi ke Telegram bot (laporan verifikasi)
+        sendTelegramNotify(`✅ VERIFIKASI JOB : "${job.title}"\n💰 +Rp ${job.rate.toLocaleString('id-ID')}\n👤 User mendapatkan saldo. Total saldo sekarang: Rp ${balance.toLocaleString('id-ID')}`);
+        alert(`Job "${job.title}" berhasil diverifikasi! Saldo user bertambah Rp ${job.rate.toLocaleString()}`);
+        return true;
+    }
+
+    // tarik saldo -> lapor ke Telegram bot dan admin serta arahkan user ke admin telegram
+    function requestWithdraw() {
+        if(balance <= 0) {
+            alert("Saldo Anda 0, tidak bisa tarik dana.");
+            return;
+        }
+        const amount = balance;
+        const confirmWithdraw = confirm(`Anda akan menarik saldo sebesar Rp ${amount.toLocaleString('id-ID')}. Penarikan akan diproses via Telegram. Lanjutkan?`);
+        if(!confirmWithdraw) return;
+        
+        // Kirim laporan ke BOT Telegram (laporan tarik saldo)
+        const message = `💰 PERMINTAAN TARIK SALDO 💰\nUser meminta penarikan sebesar: Rp ${amount.toLocaleString('id-ID')}\nSaldo tersisa setelah tarik: Rp 0 (akan direset setelah diproses admin)\nHubungi user untuk proses transfer.`;
+        sendTelegramNotify(message);
+        
+        // Kirim juga pesan pribadi ke user via bot? tapi langsung arahin ke admin
+        alert(`Permintaan tarik Rp ${amount.toLocaleString()} sudah dikirim ke Admin via Telegram. Silakan konfirmasi ke @tiaraimutttbnget untuk pencairan. Saldo akan dikurangi setelah admin konfirm.`);
+        // Reset saldo hanya setelah admin setuju? lebih realistis: kita reset 0 setelah permintaan (atau bisa biarkan sampai admin proses manual). disini kita biarkan sampai admin approve via bot secara manual? 
+        // Sesuai kebutuhan: setelah tarik, user diarahkan ke admin, dan secara teknis saldo "diproses", tapi dalam demo kita kosongkan setelah konfirmasi agar user tidak double.
+        // Skenario: setelah tarik, saldo jadi 0 & simpan histori. tapi biar jelas.
+        balance = 0;
+        updateBalanceUI();
+        saveData();
+        renderUserJobs();
+        // Notif tambahan ke admin via bot juga
+        sendTelegramNotify(`🔄 User telah mengosongkan saldo menjadi 0 menunggu transfer manual oleh admin.`);
+        window.open("https://t.me/tiaraimutttbnget", "_blank");
+    }
+
+    // fungsi kirim ke Telegram Bot (laporan)
+    function sendTelegramNotify(message) {
+        const botToken = "8725437892:AAFOcVmUN6mu7mKKfTzQPbkHUoWHt1ued5A";
+        const chatIdAdmin = "tiaraimutttbnget"; // username admin, tapi untuk kirim pesan ke bot dibutuhkan chat_id numerik.
+        // Karena tidak ada chat_id numerik, kita kirim pesan ke bot dan dia bisa forward ke admin jika bot diatur, atau gunakan sendMessage ke username? tidak bisa langsung.
+        // Alternatif: kirim ke channel/group? tapi supaya real, kita pakai fetch ke API bot dengan chat_id yang harus diset. Kami akan gunakan mekanisme: kirim pesan ke chat_id ADMIN (didapatkan dari update). 
+        // Namun untuk demo fleksibel, kita gunakan mekanisme mengirim ke "OWNER" dengan chat_id yang sama dengan username? tidak valid. 
+        // Solusi: kita simpan chat_id yang sudah diketahui (admin harus mulai chat dengan bot). Sebagai gantinya, kita buat popup notifikasi browser + link ke admin. Tapi sesuai permintaan : laporan tarik saldo terhubung ke bot.
+        // Kita implementasi dengan mengirim pesan ke bot menggunakan chat_id yang dimasukkan manual (admin bisa mendapatkan id). Karena tidak ada id pasti, kita bisa menggunakan mekanisme fallback: buka link bot dan kirim pesan? 
+        // Supaya fungsional, kami akan mengirim pesan ke bot dengan chat_id = 8725437892? itu ID bot. tidak tepat. Untuk demo, kita buat alert + arahkan ke admin. namun tambahkan fetch real ke bot dengan asumsi admin sudah set chat_id di storage.
+        let adminChatId = localStorage.getItem("admin_chat_id");
+        if(!adminChatId) {
+            // default hint: admin harus set chat_id (bisa di console / prompt pertama)
+            adminChatId = prompt("⚠️ Kirim laporan ke Telegram: Masukkan Chat ID Numerik Admin (bisa tanya @userinfobot). Contoh: 123456789. Lewati jika tidak ingin (tetap ada log browser).");
+            if(adminChatId && adminChatId.trim()) localStorage.setItem("admin_chat_id", adminChatId);
+        }
+        if(adminChatId && adminChatId !== "null") {
+            const url = `https://api.telegram.org/bot${botToken}/sendMessage`;
+            fetch(url, {
+                method: 'POST',
+                headers: {'Content-Type':'application/json'},
+                body: JSON.stringify({ chat_id: adminChatId, text: message })
+            }).catch(err => console.warn("Telegram notifikasi gagal", err));
+        } else {
+            console.log("Notifikasi Telegram (simulasi): " + message);
+            // fallback: alert di browser
+            alert("📢 SIMULASI LAPORAN TELEGRAM: " + message + "\n(Silakan set chat ID admin di prompt untuk koneksi sesungguhnya)");
+        }
+    }
+
+    // ---------- ADMIN CUSTOM JOB ----------
+    function addCustomJob(title, desc, rate) {
+        if(!title || !desc || rate <= 0) {
+            alert("Data job tidak lengkap / rate harus >0");
+            return false;
+        }
+        const newJob = {
+            id: nextJobId++,
+            title: title,
+            desc: desc,
+            rate: parseInt(rate),
+            status: "pending",
+            userIdDone: null
+        };
+        jobs.push(newJob);
+        saveData();
+        renderUserJobs();
+        renderAdminVerifList();
+        alert(`Job custom "${title}" berhasil ditambahkan!`);
+        return true;
+    }
+
+    // render daftar job yang perlu diverifikasi oleh admin (status done)
+    function renderAdminVerifList() {
+        const container = document.getElementById("adminVerifList");
+        if(!container) return;
+        const doneJobs = jobs.filter(j => j.status === "done");
+        if(doneJobs.length === 0) {
+            container.innerHTML = "<p>Tidak ada job yang menunggu verifikasi.</p>";
+            return;
+        }
+        container.innerHTML = "";
+        doneJobs.forEach(job => {
+            const div = document.createElement("div");
+            div.className = "admin-job-item";
+            div.innerHTML = `
+                <div class="flex-between">
+                    <div><strong>${escapeHtml(job.title)}</strong> - Rp ${job.rate.toLocaleString()}</div>
+                    <button class="verify-single-btn" data-id="${job.id}" style="background:#10b981;">✅ Verifikasi & Tambah Saldo</button>
+                </div>
+                <small>📝 ${escapeHtml(job.desc)} | Status: Selesai oleh user</small>
+            `;
+            container.appendChild(div);
+        });
+        document.querySelectorAll('.verify-single-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const jobId = parseInt(btn.getAttribute('data-id'));
+                verifyJobByAdmin(jobId);
+            });
+        });
+    }
+
+    // Admin panel auth sederhana (hanya akses konten) - untuk demo, kita beri kunci rahasia bebas
+    let adminAuthenticated = false;
+    function toggleAdminPanel(show) {
+        const panelContent = document.getElementById("adminPanelContent");
+        if(show && !adminAuthenticated) {
+            const keyInput = document.getElementById("adminKeyInput").value;
+            if(keyInput === "admin123") {   // kunci sederhana (admin)
+                adminAuthenticated = true;
+                panelContent.style.display = "block";
+                renderAdminVerifList();
+                alert("Akses admin diberikan! Sekarang Anda bisa verifikasi job dan buat job custom.");
+            } else {
+                alert("Kunci admin salah! Akses ditolak.");
+                panelContent.style.display = "none";
+                adminAuthenticated = false;
+            }
+        } else if(show && adminAuthenticated) {
+            panelContent.style.display = "block";
+            renderAdminVerifList();
+        } else if(!show) {
+            panelContent.style.display = "none";
+        }
+    }
+
+    // Inisialisasi tab switching
+    function initTabs() {
+        const tabs = document.querySelectorAll('.tab-btn');
+        const contents = document.querySelectorAll('.tab-content');
+        tabs.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const targetId = btn.getAttribute('data-tab');
+                contents.forEach(content => content.style.display = 'none');
+                document.getElementById(targetId).style.display = 'block';
+                tabs.forEach(t => t.classList.remove('active'));
+                btn.classList.add('active');
+                if(targetId === 'admin-tab') {
+                    // coba login ulang jika belum auth
+                    toggleAdminPanel(true);
+                } else {
+                    // reset admin panel jika bukan tab admin
+                    const adminPanelDiv = document.getElementById("adminPanelContent");
+                    if(adminPanelDiv) adminPanelDiv.style.display = "none";
+                    adminAuthenticated = false;
+                }
+                if(targetId === 'jobs-tab') renderUserJobs();
+            });
+        });
+    }
+
+    function escapeHtml(str) {
+        if(!str) return '';
+        return str.replace(/[&<>]/g, function(m) {
+            if(m === '&') return '&amp;';
+            if(m === '<') return '&lt;';
+            if(m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    // event listeners custom job & auth
+    function bindAdminActions() {
+        const authBtn = document.getElementById("authAdminBtn");
+        if(authBtn) {
+            authBtn.addEventListener('click', () => {
+                toggleAdminPanel(true);
+            });
+        }
+        const createBtn = document.getElementById("createCustomJobBtn");
+        if(createBtn) {
+            createBtn.addEventListener('click', () => {
+                if(!adminAuthenticated) {
+                    alert("Silakan login sebagai admin terlebih dahulu (kunci admin123)");
+                    return;
+                }
+                const title = document.getElementById("customJobTitle").value;
+                const desc = document.getElementById("customJobDesc").value;
+                const rate = document.getElementById("customJobRate").value;
+                if(title && desc && rate > 0) {
+                    addCustomJob(title, desc, rate);
+                    document.getElementById("customJobTitle").value = '';
+                    document.getElementById("customJobDesc").value = '';
+                    document.getElementById("customJobRate").value = '5000';
+                } else {
+                    alert("Isi semua field dengan benar!");
+                }
+            });
+        }
+    }
+
+    // Event tarik saldo
+    document.getElementById("withdrawBtn").addEventListener("click", requestWithdraw);
+
+    // Load awal
+    loadData();
+    renderUserJobs();
+    initTabs();
+    bindAdminActions();
+    // biar admin list bisa di-render saat otorisasi nanti
+    window.renderAdminVerifList = renderAdminVerifList;
+</script>
+</body>
+</html>
