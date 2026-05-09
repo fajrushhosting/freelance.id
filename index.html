@@ -198,7 +198,8 @@
         .badge-pending { background: #fef3c7; color: #b45309; }
         .badge-done { background: #dbeafe; color: #1e40af; }
         .badge-verified { background: #dcfce7; color: #15803d; }
-        .badge-unavailable { background: #fee2e2; color: #b91c1c; }
+        .badge-rejected { background: #fee2e2; color: #b91c1c; }
+        .badge-unavailable { background: #f1f5f9; color: #475569; }
 
         button:not(.tab-btn):not(.btn-tarik) {
             background: #1e293b;
@@ -221,7 +222,7 @@
             box-shadow: 0 12px 28px -8px rgba(0,0,0,0.06);
         }
 
-        .admin-job-item, .history-item {
+        .admin-job-item {
             border-bottom: 1px solid #e2e8f0;
             padding: 18px 0;
         }
@@ -235,6 +236,7 @@
         }
 
         .btn-verify { background: #10b981; }
+        .btn-reject { background: #ef4444; }
         .btn-delete { background: #ef4444; }
         .btn-toggle { background: #3b82f6; }
 
@@ -295,7 +297,7 @@
         <div class="logo-area">
             <div class="logo">
                 <h1>💰 FREELANCE ID</h1>
-                <p>Platform Freelance</p>
+                <p>Platform Freelance Terpercaya</p>
             </div>
         </div>
         <div class="saldo-card">
@@ -323,7 +325,7 @@
         <div class="jobs-grid" id="jobsContainer"></div>
         <div class="link-telegram">
             📢 Butuh bantuan? Hubungi Admin: <strong><a href="https://t.me/msdimas33" target="_blank">@msdimas33</a></strong><br>
-            ✅ Job diverifikasi admin ➕ saldo langsung bertambah
+            ✅ Job diverifikasi admin ➕ saldo bertambah | ❌ Job ditolak tidak mendapat saldo
         </div>
     </div>
 
@@ -344,7 +346,7 @@
                 <input type="password" id="adminKeyInput" placeholder="Masukkan kode admin">
                 <button id="authAdminBtn">Login sebagai Admin</button>
                 <div id="adminPanelContent" style="display: none; margin-top: 30px;">
-                    <h3>✅ Verifikasi Job (Selesai oleh User)</h3>
+                    <h3>✅ / ❌ Verifikasi / Tolak Job (Selesai oleh User)</h3>
                     <div id="adminVerifList"></div>
                     <hr>
                     <h3>➕ Buat Job Custom</h3>
@@ -373,9 +375,9 @@
     let adminAuth = false;
 
     function loadData() {
-        const storedJobs = localStorage.getItem("freelance_jobs_v4");
-        const storedBalance = localStorage.getItem("freelance_balance_v4");
-        const storedHistory = localStorage.getItem("freelance_withdraw_history");
+        const storedJobs = localStorage.getItem("freelance_jobs_v5");
+        const storedBalance = localStorage.getItem("freelance_balance_v5");
+        const storedHistory = localStorage.getItem("freelance_withdraw_history_v5");
 
         if (storedJobs) {
             jobs = JSON.parse(storedJobs);
@@ -400,9 +402,9 @@
     }
 
     function saveData() {
-        localStorage.setItem("freelance_jobs_v4", JSON.stringify(jobs));
-        localStorage.setItem("freelance_balance_v4", balance);
-        localStorage.setItem("freelance_withdraw_history", JSON.stringify(withdrawHistory));
+        localStorage.setItem("freelance_jobs_v5", JSON.stringify(jobs));
+        localStorage.setItem("freelance_balance_v5", balance);
+        localStorage.setItem("freelance_withdraw_history_v5", JSON.stringify(withdrawHistory));
     }
 
     function updateBalanceUI() {
@@ -436,6 +438,9 @@
             } else if (job.status === "verified") {
                 statusBadge = '<span class="badge badge-verified">🏆 Terverifikasi + Saldo masuk</span>';
                 actionBtn = `<span style="color:#15803d;">✔️ Sudah diverifikasi</span>`;
+            } else if (job.status === "rejected") {
+                statusBadge = '<span class="badge badge-rejected">❌ Ditolak Admin (tidak dapat saldo)</span>';
+                actionBtn = `<span style="color:#b91c1c;">✖️ Job ditolak</span>`;
             }
             const card = document.createElement("div");
             card.className = "job-card";
@@ -469,10 +474,10 @@
             renderAdminVerif();
             renderAllJobsAdmin();
         }
-        alert("✅ Job telah diselesaikan! Tunggu admin memverifikasi.");
+        alert("✅ Job telah diselesaikan! Tunggu admin memverifikasi atau menolak.");
     }
 
-    // =============== ADMIN VERIFIKASI ===============
+    // =============== ADMIN VERIFIKASI / TOLAK JOB ===============
     function verifyJob(jobId) {
         if (!adminAuth) {
             alert("Akses ditolak. Login admin terlebih dahulu!");
@@ -480,7 +485,7 @@
         }
         const job = jobs.find(j => j.id === jobId);
         if (!job || job.status !== "done") {
-            alert("Job tidak dalam status selesai atau sudah diverifikasi.");
+            alert("Job tidak dalam status selesai atau sudah diproses.");
             return;
         }
         balance += job.rate;
@@ -491,6 +496,24 @@
         renderAdminVerif();
         renderAllJobsAdmin();
         alert(`🎉 Job "${job.title}" diverifikasi! +Rp ${job.rate.toLocaleString()}`);
+    }
+
+    function rejectJob(jobId) {
+        if (!adminAuth) {
+            alert("Akses ditolak. Login admin terlebih dahulu!");
+            return;
+        }
+        const job = jobs.find(j => j.id === jobId);
+        if (!job || job.status !== "done") {
+            alert("Job tidak dalam status selesai atau sudah diproses.");
+            return;
+        }
+        job.status = "rejected";
+        saveData();
+        renderUserJobs();
+        renderAdminVerif();
+        renderAllJobsAdmin();
+        alert(`❌ Job "${job.title}" ditolak. User tidak mendapat saldo.`);
     }
 
     // =============== ADMIN HAPUS JOB ===============
@@ -560,7 +583,7 @@
         if (!container) return;
         const needVerify = jobs.filter(j => j.status === "done");
         if (needVerify.length === 0) {
-            container.innerHTML = "<p style='padding: 12px 0;'>✨ Tidak ada job yang menunggu verifikasi.</p>";
+            container.innerHTML = "<p style='padding: 12px 0;'>✨ Tidak ada job yang menunggu verifikasi / penolakan.</p>";
             return;
         }
         container.innerHTML = "";
@@ -570,7 +593,10 @@
             div.innerHTML = `
                 <div class="flex-between">
                     <div><strong>${escapeHtml(job.title)}</strong> - Rp ${job.rate.toLocaleString()}</div>
-                    <button class="verify-admin-btn" data-id="${job.id}" style="background:#10b981;">✅ Verifikasi & Tambah Saldo</button>
+                    <div style="display: flex; gap: 8px;">
+                        <button class="verify-admin-btn" data-id="${job.id}" style="background:#10b981;">✅ Terima & Tambah Saldo</button>
+                        <button class="reject-admin-btn" data-id="${job.id}" style="background:#ef4444;">❌ Tolak (Tanpa Saldo)</button>
+                    </div>
                 </div>
                 <small>📝 ${escapeHtml(job.desc)} | Status: Selesai oleh user</small>
             `;
@@ -580,6 +606,12 @@
             btn.addEventListener('click', (e) => {
                 const id = parseInt(btn.getAttribute('data-id'));
                 verifyJob(id);
+            });
+        });
+        document.querySelectorAll('.reject-admin-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                const id = parseInt(btn.getAttribute('data-id'));
+                rejectJob(id);
             });
         });
     }
@@ -593,7 +625,11 @@
         }
         container.innerHTML = "";
         jobs.forEach(job => {
-            let statusText = job.status === "pending" ? "⏳ Pending" : (job.status === "done" ? "✅ Selesai (belum verif)" : "🏆 Terverifikasi");
+            let statusText = "";
+            if (job.status === "pending") statusText = "⏳ Pending";
+            else if (job.status === "done") statusText = "✅ Selesai (belum diproses)";
+            else if (job.status === "verified") statusText = "🏆 Terverifikasi";
+            else if (job.status === "rejected") statusText = "❌ Ditolak";
             const availText = job.available ? "✅ Tersedia" : "❌ Tidak Tersedia";
             const availBtnText = job.available ? "Set Tidak Tersedia" : "Set Tersedia";
             const div = document.createElement("div");
@@ -637,7 +673,6 @@
             return;
         }
         container.innerHTML = "";
-        // Urutkan dari yang terbaru
         const sorted = [...withdrawHistory].reverse();
         sorted.forEach(item => {
             const div = document.createElement("div");
@@ -657,7 +692,7 @@
         });
     }
 
-    // =============== TARIK SALDO (MIN 20.000, LANGSUNG KE ADMIN TG + CATAT RIWAYAT) ===============
+    // =============== TARIK SALDO (MIN 20.000) + CLIPBOARD DENGAN JUMLAH TARIKAN ===============
     function requestWithdraw() {
         if (balance < 20000) {
             alert(`Minimal tarik saldo adalah Rp 20.000. Saldo Anda saat ini: Rp ${balance.toLocaleString('id-ID')}`);
@@ -678,11 +713,13 @@
         };
         withdrawHistory.push(newHistory);
         
-        // Kirim pesan ke clipboard dan buka chat admin
+        // Pesan yang berisi jumlah tarikan
         const pesan = `Halo Admin, saya ingin menarik saldo sebesar Rp ${amount.toLocaleString('id-ID')}. Terima kasih.`;
+        
+        // Salin ke clipboard lalu buka chat admin
         navigator.clipboard.writeText(pesan).then(() => {
             window.open("https://t.me/msdimas33", "_blank");
-            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()} berhasil.\nPesan tarikan sudah disalin ke clipboard.\nSilakan paste dan kirim ke admin (@msdimas33).\nSaldo Anda sekarang Rp 0.\nRiwayat telah dicatat.`);
+            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()} berhasil.\nPesan tarikan (berisi jumlah) sudah disalin ke clipboard.\nSilakan paste dan kirim ke admin (@msdimas33) di chat yang terbuka.\nSaldo Anda sekarang Rp 0.\nRiwayat telah dicatat.`);
         }).catch(() => {
             window.open("https://t.me/msdimas33", "_blank");
             alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()}.\nSilakan kirim pesan berikut ke admin:\n"${pesan}"\nSaldo telah dikosongkan.\nRiwayat telah dicatat.`);
@@ -693,7 +730,7 @@
         saveData();
         updateBalanceUI();
         renderUserJobs();
-        renderWithdrawHistory(); // update tampilan riwayat
+        renderWithdrawHistory();
     }
 
     // =============== LOGIN ADMIN ===============
