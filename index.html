@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>FREELANCE ID</title>
+    <title> FREELANCE ID</title>
     <style>
         * {
             margin: 0;
@@ -199,7 +199,6 @@
         .badge-done { background: #dbeafe; color: #1e40af; }
         .badge-verified { background: #dcfce7; color: #15803d; }
         .badge-rejected { background: #fee2e2; color: #b91c1c; }
-        .badge-unavailable { background: #f1f5f9; color: #475569; }
 
         button:not(.tab-btn):not(.btn-tarik) {
             background: #1e293b;
@@ -214,7 +213,6 @@
             transition: 0.2s;
         }
 
-        /* ADMIN PANEL */
         .admin-section, .history-section {
             background: white;
             border-radius: 36px;
@@ -320,7 +318,6 @@
         <button class="tab-btn" data-tab="admin-tab">🔐 Admin Panel</button>
     </div>
 
-    <!-- TAB JOB USER -->
     <div id="jobs-tab" class="tab-content">
         <div class="jobs-grid" id="jobsContainer"></div>
         <div class="link-telegram">
@@ -329,7 +326,6 @@
         </div>
     </div>
 
-    <!-- TAB RIWAYAT TARIK -->
     <div id="history-tab" class="tab-content" style="display: none;">
         <div class="history-section">
             <h2>📜 Riwayat Penarikan Saldo</h2>
@@ -337,7 +333,6 @@
         </div>
     </div>
 
-    <!-- TAB ADMIN -->
     <div id="admin-tab" class="tab-content" style="display: none;">
         <div class="admin-section">
             <h2>🔐 Panel Administrator</h2>
@@ -365,19 +360,18 @@
 
 <script>
     // ======================= DATA & STORAGE =======================
-    let jobs = [];          // { id, title, desc, rate, status, available }
+    let jobs = [];
     let balance = 0;
     let nextJobId = 1;
-    let withdrawHistory = []; // { id, amount, date, status }
+    let withdrawHistory = [];
     let nextHistoryId = 1;
-
     const ADMIN_CODE = "FAJRUSH13-11-2007";
     let adminAuth = false;
 
     function loadData() {
-        const storedJobs = localStorage.getItem("freelance_jobs_v5");
-        const storedBalance = localStorage.getItem("freelance_balance_v5");
-        const storedHistory = localStorage.getItem("freelance_withdraw_history_v5");
+        const storedJobs = localStorage.getItem("freelance_jobs_final");
+        const storedBalance = localStorage.getItem("freelance_balance_final");
+        const storedHistory = localStorage.getItem("freelance_withdraw_history_final");
 
         if (storedJobs) {
             jobs = JSON.parse(storedJobs);
@@ -402,9 +396,9 @@
     }
 
     function saveData() {
-        localStorage.setItem("freelance_jobs_v5", JSON.stringify(jobs));
-        localStorage.setItem("freelance_balance_v5", balance);
-        localStorage.setItem("freelance_withdraw_history_v5", JSON.stringify(withdrawHistory));
+        localStorage.setItem("freelance_jobs_final", JSON.stringify(jobs));
+        localStorage.setItem("freelance_balance_final", balance);
+        localStorage.setItem("freelance_withdraw_history_final", JSON.stringify(withdrawHistory));
     }
 
     function updateBalanceUI() {
@@ -416,7 +410,7 @@
         return str.replace(/[&<>]/g, m => m === '&' ? '&amp;' : (m === '<' ? '&lt;' : '&gt;'));
     }
 
-    // =============== RENDER JOB UNTUK USER (hanya available = true) ===============
+    // =============== RENDER JOB UNTUK USER ===============
     function renderUserJobs() {
         const container = document.getElementById("jobsContainer");
         if (!container) return;
@@ -477,7 +471,7 @@
         alert("✅ Job telah diselesaikan! Tunggu admin memverifikasi atau menolak.");
     }
 
-    // =============== ADMIN VERIFIKASI / TOLAK JOB ===============
+    // =============== ADMIN VERIFIKASI / TOLAK ===============
     function verifyJob(jobId) {
         if (!adminAuth) {
             alert("Akses ditolak. Login admin terlebih dahulu!");
@@ -664,7 +658,7 @@
         });
     }
 
-    // =============== RIWAYAT TARIK SALDO ===============
+    // =============== RIWAYAT TARIK ===============
     function renderWithdrawHistory() {
         const container = document.getElementById("historyList");
         if (!container) return;
@@ -692,7 +686,7 @@
         });
     }
 
-    // =============== TARIK SALDO (MIN 20.000) + CLIPBOARD DENGAN JUMLAH TARIKAN ===============
+    // =============== TARIK SALDO ===============
     function requestWithdraw() {
         if (balance < 20000) {
             alert(`Minimal tarik saldo adalah Rp 20.000. Saldo Anda saat ini: Rp ${balance.toLocaleString('id-ID')}`);
@@ -702,7 +696,6 @@
         const konfirmasi = confirm(`Tarik saldo Rp ${amount.toLocaleString('id-ID')}? Saldo akan menjadi 0 dan Anda akan diarahkan ke chat admin.`);
         if (!konfirmasi) return;
 
-        // Catat ke riwayat
         const now = new Date();
         const formattedDate = `${now.toLocaleDateString('id-ID')} ${now.toLocaleTimeString('id-ID')}`;
         const newHistory = {
@@ -713,19 +706,15 @@
         };
         withdrawHistory.push(newHistory);
         
-        // Pesan yang berisi jumlah tarikan
         const pesan = `Halo Admin, saya ingin menarik saldo sebesar Rp ${amount.toLocaleString('id-ID')}. Terima kasih.`;
-        
-        // Salin ke clipboard lalu buka chat admin
         navigator.clipboard.writeText(pesan).then(() => {
             window.open("https://t.me/msdimas33", "_blank");
-            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()} berhasil.\nPesan tarikan (berisi jumlah) sudah disalin ke clipboard.\nSilakan paste dan kirim ke admin (@msdimas33) di chat yang terbuka.\nSaldo Anda sekarang Rp 0.\nRiwayat telah dicatat.`);
+            alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()} berhasil.\nPesan (berisi jumlah) sudah disalin ke clipboard.\nSilakan paste dan kirim ke admin (@msdimas33).\nSaldo Anda sekarang Rp 0.\nRiwayat telah dicatat.`);
         }).catch(() => {
             window.open("https://t.me/msdimas33", "_blank");
             alert(`✅ Permintaan tarik Rp ${amount.toLocaleString()}.\nSilakan kirim pesan berikut ke admin:\n"${pesan}"\nSaldo telah dikosongkan.\nRiwayat telah dicatat.`);
         });
         
-        // Reset saldo dan simpan
         balance = 0;
         saveData();
         updateBalanceUI();
